@@ -1,9 +1,10 @@
 {
-  "name": "rephrasy-mcp",
+  "name": "@rephrasy/mcp",
   "version": "0.1.0",
   "description": "MCP server for Rephrasy — humanize AI-generated text and check AI-detection scores from Claude, Cursor, or any MCP client.",
   "license": "MIT",
   "type": "module",
+  "mcpName": "io.github.rephrasyai/rephrasy-mcp",
   "bin": {
     "rephrasy-mcp": "dist/index.js"
   },
@@ -27,11 +28,18 @@
     "writing",
     "paraphrasing"
   ],
+  "author": "Rephrasy (https://rephrasy.ai)",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/grumpyp/rephrasy-mcp.git"
+    "url": "git+https://github.com/rephrasyai/rephrasy-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rephrasyai/rephrasy-mcp/issues"
   },
   "homepage": "https://rephrasy.ai",
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.0",
     "zod": "^3.24.0"

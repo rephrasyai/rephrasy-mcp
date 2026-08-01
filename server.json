@@ -1,0 +1,31 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.rephrasyai/rephrasy-mcp",
+  "description": "Humanize AI-generated text and check AI-detection scores with Rephrasy, from Claude, Cursor, or any MCP client.",
+  "title": "Rephrasy",
+  "websiteUrl": "https://rephrasy.ai",
+  "repository": {
+    "url": "https://github.com/rephrasyai/rephrasy-mcp",
+    "source": "github"
+  },
+  "version": "0.1.0",
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "@rephrasy/mcp",
+      "version": "0.1.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "REPHRASY_API_KEY",
+          "description": "Rephrasy API key from your account (rephrasy.ai → Account → API).",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    }
+  ]
+}

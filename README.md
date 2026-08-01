@@ -1,5 +1,7 @@
 # Rephrasy MCP Server
 
+[![npm](https://img.shields.io/npm/v/@rephrasy/mcp)](https://www.npmjs.com/package/@rephrasy/mcp)
+
 Use [Rephrasy](https://rephrasy.ai) from Claude, Cursor, or any MCP client: humanize AI-generated text and check AI-detection scores without leaving your editor or agent workflow.
 
 Two tools, one API key:
@@ -18,7 +20,7 @@ Two tools, one API key:
 ### Claude Code
 
 ```bash
-claude mcp add rephrasy -e REPHRASY_API_KEY=<your-key> -- npx -y rephrasy-mcp
+claude mcp add rephrasy -e REPHRASY_API_KEY=<your-key> -- npx -y @rephrasy/mcp
 ```
 
 ### Claude Desktop
@@ -30,7 +32,7 @@ Add to `claude_desktop_config.json` (Settings → Developer → Edit Config):
   "mcpServers": {
     "rephrasy": {
       "command": "npx",
-      "args": ["-y", "rephrasy-mcp"],
+      "args": ["-y", "@rephrasy/mcp"],
       "env": { "REPHRASY_API_KEY": "<your-key>" }
     }
   }
@@ -46,14 +48,14 @@ Add to `.cursor/mcp.json` (project) or `~/.cursor/mcp.json` (global):
   "mcpServers": {
     "rephrasy": {
       "command": "npx",
-      "args": ["-y", "rephrasy-mcp"],
+      "args": ["-y", "@rephrasy/mcp"],
       "env": { "REPHRASY_API_KEY": "<your-key>" }
     }
   }
 }
 ```
 
-> Until the package is on npm you can run it straight from GitHub: replace `"args": ["-y", "rephrasy-mcp"]` with `"args": ["-y", "github:grumpyp/rephrasy-mcp"]`.
+> Until the package is on npm you can run it straight from GitHub: replace `"args": ["-y", "@rephrasy/mcp"]` with `"args": ["-y", "github:rephrasyai/rephrasy-mcp"]`.
 
 ## Tools
 
