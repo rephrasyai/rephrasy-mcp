@@ -1,7 +1,7 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.rephrasyai/rephrasy-mcp",
-  "description": "Humanize AI-generated text and check AI-detection scores with Rephrasy, from Claude, Cursor, or any MCP client.",
+  "description": "Humanize AI text and check AI-detection scores from Claude, Cursor, or any MCP client.",
   "title": "Rephrasy",
   "websiteUrl": "https://rephrasy.ai",
   "repository": {
