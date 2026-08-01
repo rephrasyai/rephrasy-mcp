@@ -1,0 +1,17 @@
+# Smithery config — https://smithery.ai/docs/build/project-config/smithery.yaml
+# Runs the published npm package as a local stdio MCP server.
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    required:
+      - rephrasyApiKey
+    properties:
+      rephrasyApiKey:
+        type: string
+        title: Rephrasy API Key
+        description: Your Rephrasy API key (rephrasy.ai → Account → API).
+  commandFunction: |-
+    (config) => ({ command: 'npx', args: ['-y', '@rephrasy/mcp'], env: { REPHRASY_API_KEY: config.rephrasyApiKey } })
+  exampleConfig:
+    rephrasyApiKey: your-rephrasy-api-key
