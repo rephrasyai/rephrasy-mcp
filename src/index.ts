@@ -71,6 +71,12 @@ async function callRephrasy(url: string, body: Record<string, unknown>): Promise
   return res.json();
 }
 
+/** Whitespace-delimited word count, matching how the app reports words in/out. */
+function countWords(s: string): number {
+  const t = s.trim();
+  return t ? t.split(/\s+/).length : 0;
+}
+
 function errorResult(e: unknown) {
   return {
     content: [{ type: "text" as const, text: e instanceof Error ? e.message : String(e) }],
@@ -119,9 +125,13 @@ server.registerTool(
       if (typeof output !== "string" || !output) {
         throw new Error(`Unexpected response from Rephrasy: ${JSON.stringify(data).slice(0, 300)}`);
       }
-      const costs =
-        data?.costs?.total != null ? `\n\n[rephrasy] words charged: ${data.costs.total}` : "";
-      return { content: [{ type: "text" as const, text: output + costs }] };
+      // Mirror the app's "words in / words out" readout, plus words charged.
+      const wordsIn = countWords(text);
+      const wordsOut = countWords(output);
+      const charged =
+        data?.costs?.total != null ? `, ${data.costs.total} words charged` : "";
+      const meta = `\n\n[rephrasy] ${wordsIn} words in / ${wordsOut} words out${charged}`;
+      return { content: [{ type: "text" as const, text: output + meta }] };
     } catch (e) {
       return errorResult(e);
     }
