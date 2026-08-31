@@ -84,7 +84,7 @@ function errorResult(e: unknown) {
   };
 }
 
-const server = new McpServer({ name: "rephrasy", version: "0.1.0" });
+const server = new McpServer({ name: "rephrasy", version: "0.2.0" });
 
 server.registerTool(
   "humanize",
@@ -94,12 +94,18 @@ server.registerTool(
       "Rewrite AI-generated text with Rephrasy so it reads in a natural, human style — " +
       "varying sentence rhythm, structure and word choice while preserving meaning. " +
       "Returns the rewritten text. Costs words/credits on the connected Rephrasy plan.",
+    annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     inputSchema: {
       text: z.string().min(1).describe("The text to humanize."),
       model: z
         .string()
-        .default("v3")
-        .describe('Rephrasy model to use. Default "v3" (current best).'),
+        .default("v4")
+        .describe(
+          'Rephrasy model to use. Default "v4" (recommended). ' +
+            '"ft_clean-v3" retains meaning best and keeps the length almost identical — ' +
+            'prefer it for technical text and anything with figures. ' +
+            'Also available: "v3", "SEO Model", "Undetectable Model v2".'
+        ),
       style: z
         .string()
         .optional()
@@ -146,6 +152,7 @@ server.registerTool(
       "Score a text with Rephrasy's AI detector. Returns an overall AI-likelihood score " +
       "(lower = more human-like) and, optionally, per-sentence scores. " +
       "Useful to verify a draft before publishing. Max 15,000 characters.",
+    annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     inputSchema: {
       text: z
         .string()

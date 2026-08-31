@@ -57,6 +57,22 @@ Add to `.cursor/mcp.json` (project) or `~/.cursor/mcp.json` (global):
 
 > Until the package is on npm you can run it straight from GitHub: replace `"args": ["-y", "@rephrasy/mcp"]` with `"args": ["-y", "github:rephrasyai/rephrasy-mcp"]`.
 
+### Hosted server (no install)
+
+Rephrasy also runs a hosted MCP server, so clients that speak streamable HTTP need
+nothing installed locally:
+
+```bash
+claude mcp add rephrasy https://v2-humanizer.rephrasy.ai/mcp -t http \
+  -H "Authorization: Bearer <your-key>"
+```
+
+It supports OAuth as well — ChatGPT and other clients that require it discover it
+from the server and send you through a one-time consent page, so the key never
+reaches the client. The hosted server carries a wider tool set (engine
+recommendations, readability, bring-your-own-key detectors). Full docs:
+<https://rephrasy.ai/mcp>.
+
 ## Tools
 
 ### `humanize`
@@ -64,11 +80,21 @@ Add to `.cursor/mcp.json` (project) or `~/.cursor/mcp.json` (global):
 | Parameter | Type | Required | Description |
 |---|---|---|---|
 | `text` | string | yes | The text to humanize |
-| `model` | string | no | Rephrasy model, default `"v3"` |
+| `model` | string | no | Rephrasy model, default `"v4"` (recommended). See [Models](#models) |
 | `style` | string | no | Writing-style ID from your account to mimic a specific voice |
 | `language` | string | no | Output language hint (e.g. `"en"`, `"de"`); defaults to input language |
 
 Returns the rewritten text plus the number of words charged.
+
+#### Models
+
+| `model` | When to use it |
+|---|---|
+| `v4` | **Default and recommended.** Natural rhythm and sentence variety, length close to the source. |
+| `ft_clean-v3` | Highest meaning retention and near-identical length — technical writing and anything with figures. |
+| `v3` | Voice-driven rewrite; pass `style` for a specific voice. |
+| `SEO Model` | Simple, informal phrasing built around keywords. |
+| `Undetectable Model v2` | Previous-generation model. |
 
 ### `detect`
 
