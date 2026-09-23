@@ -1,7 +1,7 @@
 {
   "name": "@rephrasy/mcp",
-  "version": "0.2.0",
-  "description": "MCP server for Rephrasy — humanize AI-generated text and check AI-detection scores from Claude, Cursor, or any MCP client.",
+  "version": "0.3.0",
+  "description": "MCP server for Rephrasy — humanize AI-generated text and images and check AI-detection scores from Claude, Cursor, or any MCP client.",
   "license": "MIT",
   "type": "module",
   "mcpName": "io.github.rephrasyai/rephrasy-mcp",
@@ -25,6 +25,8 @@
     "rephrasy",
     "ai-humanizer",
     "ai-detector",
+    "synthid",
+    "image-humanizer",
     "writing",
     "paraphrasing"
   ],

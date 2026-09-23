@@ -2,14 +2,16 @@
 
 [![npm](https://img.shields.io/npm/v/@rephrasy/mcp)](https://www.npmjs.com/package/@rephrasy/mcp)
 
-Use [Rephrasy](https://rephrasy.ai) from Claude, Cursor, or any MCP client: humanize AI-generated text and check AI-detection scores without leaving your editor or agent workflow.
+Use [Rephrasy](https://rephrasy.ai) from Claude, Cursor, or any MCP client: humanize AI-generated text and images, and check AI-detection scores, without leaving your editor or agent workflow.
 
-Two tools, one API key:
+Four tools, one API key:
 
 | Tool | What it does |
 |---|---|
 | `humanize` | Rewrites AI-generated text in a natural, human style while preserving meaning |
 | `detect` | Scores how likely a text is to be flagged as AI-written (overall + optional per-sentence) |
+| `humanize_image` | Humanizes a local or remote image and saves the result next to the original |
+| `get_image_result` | Collects an image that was still processing (free) |
 
 ## Setup
 
@@ -105,11 +107,36 @@ Returns the rewritten text plus the number of words charged.
 
 Returns JSON with `scores.overall` (lower = more human-like) and, in per-sentence mode, `sentences`.
 
+### `humanize_image`
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `path` | string | one of | Local image file (PNG, JPEG or WEBP, max 4 MB) |
+| `url` | string | one of | Or an http(s) link to the image |
+| `quality` | string | no | `"standard"` (default, usually under a minute) or `"hq"` (about 4 minutes) |
+| `output_path` | string | no | Where to save the result; defaults to `<name>-humanized.<ext>` next to the input |
+
+A diffusion pass removes invisible AI watermarks such as SynthID while subject,
+composition and resolution stay the same. Costs 10 credits on `standard` and 20
+on `hq`; a failed image is refunded. Standard images are usually saved within the
+call. If a job is still running, the tool returns a `job_id` instead.
+
+### `get_image_result`
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `job_id` | string | yes | The `job_id` from `humanize_image` |
+| `output_path` | string | no | Where to save the result |
+
+Waits up to about 50 seconds per call and saves the image once it is done. Results
+stay available for 72 hours and also show up in your image history on rephrasy.ai.
+
 ## Example prompts
 
 - *"Humanize this paragraph, then run detect on the result to verify it."*
 - *"Rewrite my draft with the humanize tool using my writing style `<style-id>`."*
 - *"Check which sentences of this post read as AI-written."*
+- *"Humanize ~/Desktop/hero.png in hq and tell me where you saved it."*
 
 ## Development
 
