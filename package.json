@@ -1,6 +1,6 @@
 {
   "name": "@rephrasy/mcp",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "MCP server for Rephrasy — humanize AI-generated text and images and check AI-detection scores from Claude, Cursor, or any MCP client.",
   "license": "MIT",
   "type": "module",

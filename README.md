@@ -83,7 +83,6 @@ recommendations, readability, bring-your-own-key detectors). Full docs:
 |---|---|---|---|
 | `text` | string | yes | The text to humanize |
 | `model` | string | no | Rephrasy model, default `"v4"` (recommended). See [Models](#models) |
-| `style` | string | no | Writing-style ID from your account to mimic a specific voice |
 | `language` | string | no | Output language hint (e.g. `"en"`, `"de"`); defaults to input language |
 
 Returns the rewritten text plus the number of words charged.
@@ -93,10 +92,13 @@ Returns the rewritten text plus the number of words charged.
 | `model` | When to use it |
 |---|---|
 | `v4` | **Default and recommended.** Natural rhythm and sentence variety, length close to the source. |
+| `superstealth` | **Newest.** Built for the highest bypass rates, recommended against Pangram. Slower: 10–60 s per request. |
 | `ft_clean-v3` | Highest meaning retention and near-identical length — technical writing and anything with figures. |
-| `v3` | Voice-driven rewrite; pass `style` for a specific voice. |
+| `Undetectable Model` | Best against academic detectors. |
 | `SEO Model` | Simple, informal phrasing built around keywords. |
-| `Undetectable Model v2` | Previous-generation model. |
+| `<writing style id>` | Rewrites in one of your saved Writing Styles. |
+
+`v3` and `Undetectable Model v2` are retired. Old calls keep working: the API routes `v3` to `superstealth` and `v2` to `v4`. The v3-only `style` parameter is gone.
 
 ### `detect`
 
@@ -134,7 +136,8 @@ stay available for 72 hours and also show up in your image history on rephrasy.a
 ## Example prompts
 
 - *"Humanize this paragraph, then run detect on the result to verify it."*
-- *"Rewrite my draft with the humanize tool using my writing style `<style-id>`."*
+- *"Humanize this essay with superstealth so it passes Pangram."*
+- *"Rewrite my draft with the humanize tool using model `<style-id>` (my writing style)."*
 - *"Check which sentences of this post read as AI-written."*
 - *"Humanize ~/Desktop/hero.png in hq and tell me where you saved it."*
 

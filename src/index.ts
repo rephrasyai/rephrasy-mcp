@@ -20,7 +20,8 @@ import { z } from "zod";
 
 const HUMANIZER_URL = "https://v2-humanizer.rephrasy.ai/api/";
 const DETECTOR_URL = "https://detector.rephrasy.ai/detect_api";
-const TIMEOUT_MS = 110_000;
+/** superstealth can take up to ~60 s on long texts; leave generous headroom. */
+const TIMEOUT_MS = 180_000;
 /** The detector backend truncates beyond this anyway; cap client-side for a clear error. */
 const MAX_DETECT_CHARS = 15_000;
 /**
@@ -58,7 +59,7 @@ async function callRephrasy(url: string, body: Record<string, unknown>): Promise
   } catch (e: any) {
     if (e?.name === "TimeoutError" || e?.name === "AbortError") {
       throw new Error(
-        "Rephrasy request timed out after 110s. Try again with a shorter text."
+        `Rephrasy request timed out after ${TIMEOUT_MS / 1000}s. Try again with a shorter text.`
       );
     }
     throw new Error(`Could not reach Rephrasy (${e?.message ?? e}). Check your network.`);
@@ -223,7 +224,7 @@ async function imageAnswer(jobId: string, job: ImageJob) {
   return { content: [{ type: "text" as const, text: `${text}\n\n[rephrasy] job_id ${jobId}` }] };
 }
 
-const server = new McpServer({ name: "rephrasy", version: "0.3.0" });
+const server = new McpServer({ name: "rephrasy", version: "0.3.1" });
 
 server.registerTool(
   "humanize",
@@ -241,15 +242,11 @@ server.registerTool(
         .default("v4")
         .describe(
           'Rephrasy model to use. Default "v4" (recommended). ' +
+            '"superstealth" is the newest model, built for the highest bypass rates and recommended against Pangram, ' +
+            "but slower (10-60 s per request). " +
             '"ft_clean-v3" retains meaning best and keeps the length almost identical — ' +
             'prefer it for technical text and anything with figures. ' +
-            'Also available: "v3", "SEO Model", "Undetectable Model v2".'
-        ),
-      style: z
-        .string()
-        .optional()
-        .describe(
-          "Optional writing-style ID from your Rephrasy account to mimic a specific voice."
+            'Also available: "Undetectable Model", "SEO Model", or a Writing Style ID from your Rephrasy account to write in that voice.'
         ),
       language: z
         .string()
@@ -257,12 +254,11 @@ server.registerTool(
         .describe("Optional output language hint, e.g. \"en\", \"de\". Defaults to input language."),
     },
   },
-  async ({ text, model, style, language }) => {
+  async ({ text, model, language }) => {
     try {
       const data = await callRephrasy(HUMANIZER_URL, {
         text,
         model,
-        ...(style ? { style } : {}),
         ...(language ? { language } : {}),
         words: true,
       });
